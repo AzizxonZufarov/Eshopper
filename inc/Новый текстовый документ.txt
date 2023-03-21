@@ -1,0 +1,41 @@
+						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
+							<?
+								$res = mysqli_query($con,"SELECT * FROM category");
+								$row = mysqli_fetch_assoc($res);
+
+									do{
+										$id=$row['id'];
+											$res2 = mysqli_query($con,"SELECT * FROM subcategory WHERE cat_id = $id");
+											$row2 = mysqli_fetch_assoc($res2);
+										?>
+							<div class="panel panel-default">
+
+								<div class="panel-heading">
+									<h4 class="panel-title">
+
+										<a data-toggle="collapse" data-parent="#accordian" href="#<? if(mysqli_num_rows($res2)!=0){ echo $id;}?>">
+
+											<span class="badge pull-right"><i class="<? if(mysqli_num_rows($res2)!=0){ echo 'fa fa-plus';}?>"></i></span><?=$row['name']?>
+										</a>
+									</h4>
+								</div>
+								<div id="<? if(mysqli_num_rows($res2)!=0){ echo $id;}?>" class="panel-collapse collapse">
+
+									<div class="panel-body">
+
+										<ul>
+											<?
+													$res2 = mysqli_query($con,"SELECT * FROM subcategory WHERE cat_id = $id");
+													$row2 = mysqli_fetch_assoc($res2);
+											do{
+
+												?>
+											<li><a href="category.php?id=<?=$id?>"><?=$row2['name']?></a></li>
+			<?}while($row2 = mysqli_fetch_assoc($res2));?>
+										</ul>
+
+									</div>
+								</div>
+							</div>
+<? }while($row = mysqli_fetch_assoc($res));?>
+						</div><!--/category-products-->
